@@ -51,6 +51,6 @@ public class BusinessLogic extends AppCompatActivity {
         }else{
             Toast.makeText(this,"Debes llenar los campos", Toast.LENGTH_SHORT).show();
         }
-        db.close();sss
+        db.close();
     }
 }
