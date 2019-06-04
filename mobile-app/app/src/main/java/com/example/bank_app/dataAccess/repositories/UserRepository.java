@@ -52,6 +52,7 @@ public class UserRepository {
         return user;
     }
 
+    /*
     public static int deleteUser(Context context, int id_user){
         //Se llama a la base de datos
         Database dbAccess = new Database(context, "users", null, 1);
@@ -88,6 +89,6 @@ public class UserRepository {
 
         db.close();
         return modifiedCant;
-    }
+    }*/
 
 }
