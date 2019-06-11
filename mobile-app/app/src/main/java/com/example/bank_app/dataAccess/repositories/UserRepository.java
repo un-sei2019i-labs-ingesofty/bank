@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.example.bank_app.dataAccess.database.Database;
 import com.example.bank_app.dataAccess.models.User;
@@ -11,6 +12,7 @@ import com.example.bank_app.dataAccess.models.User;
 public class UserRepository {
 
     public static void createUser(Context context, User newUser) {
+
         //Se llama a la db
         Database dbAccess = new Database(context, "users", null, 1);
         SQLiteDatabase db = dbAccess.getWritableDatabase();
@@ -24,6 +26,7 @@ public class UserRepository {
         //Se inserta en la base de datos
         db.insert("user", null, registro);//En la tabla USER!
         db.close();
+
     }
 
     public static User getUser(Context context, int id_user, int password){
@@ -34,25 +37,34 @@ public class UserRepository {
         SQLiteDatabase db = dbAccess.getWritableDatabase();
 
         //Atributos para hacer la consulta
-        String[] columns = new String[]{"id_user","password"}; //Columnas de la tabla
+        String[] columns = new String[]{"id_user","name","password"}; //Columnas de la tabla
         String where = "id_user = ? AND password = ?";//cláusula
         String[] whereValues = new String[]{Integer.toString(id_user), Integer.toString(password)};// valores de la condición
 
         //Consulta per sé
+        System.out.println("AQUIIII ESTOY");
         Cursor register = db.query("user", columns, where, whereValues, null, null, null);
+        System.out.println("CURSORRRR :    "+register.getInt(0)+register.getInt(1));
 
         //Si existe, retorne el usuario, y si no, retorna el usuario default
-        if (register.moveToFirst()){
-            user.setId(register.getInt(0));
-            user.setName(register.getString(1));
-            user.setPassword(register.getInt(2));
+        if(register==null){
+            return user;
+        }
+        try {
+            if (register.moveToFirst()) {
+                user.setId(register.getInt(0));
+                user.setName(register.getString(1));
+                user.setPassword(register.getInt(2));
+                db.close();
+            }
+        }finally {
+            register.close();
+            db.close();
         }
 
-        db.close();
         return user;
     }
 
-    /*
     public static int deleteUser(Context context, int id_user){
         //Se llama a la base de datos
         Database dbAccess = new Database(context, "users", null, 1);
@@ -89,6 +101,6 @@ public class UserRepository {
 
         db.close();
         return modifiedCant;
-    }*/
+    }
 
 }

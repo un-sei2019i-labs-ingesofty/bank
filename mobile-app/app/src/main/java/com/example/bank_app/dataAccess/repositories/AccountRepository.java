@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.bank_app.dataAccess.database.Database;
 import com.example.bank_app.dataAccess.models.Account;
-import com.example.bank_app.dataAccess.models.Account;
 
 public class AccountRepository {
 
@@ -44,7 +43,7 @@ public class AccountRepository {
         //Si existe, retorne el usuario, y si no, retorna el usuario default
         if (register.moveToFirst()){
             Account.setAccountNumber(register.getInt(0));
-            Account.setBalance(register.getString(1));
+            Account.setBalance(register.getFloat(1));
 
         }
 
