@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
         }
         String usuario = et_usuario.getText().toString();
         String contraseña = et_contraseña.getText().toString();
+        User usuario1 = UserRepository.getUser(this, Integer.parseInt(usuario), Integer.parseInt(contraseña));
         if(!usuario.isEmpty() || !contraseña.isEmpty()){
-            if(UserRepository.getUser(this, Integer.parseInt(usuario), Integer.parseInt(contraseña)).getId() != 0){
+            if(usuario1.getId() != 0){
                 Toast.makeText(this,"Felicidades!", Toast.LENGTH_SHORT).show();
+                new SendMoneyActivity(usuario1);
             } else {
                 Toast.makeText(this,"Usuario o contraseña no registrados", Toast.LENGTH_SHORT).show();
             }
