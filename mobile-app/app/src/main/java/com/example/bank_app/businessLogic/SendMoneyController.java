@@ -27,6 +27,14 @@ public class SendMoneyController {
             return false;//error()
         }
 
+
+
+
+        if(balance> 0 ) {
+            modifyAccount(context, acc2);
+            modifyAccount(context, acc1);
+        }
+
     }
 }
 
