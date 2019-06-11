@@ -32,7 +32,7 @@ public class SendMoneyActivity extends AppCompatActivity {
         String destino = et_destino.getText().toString();
         String monto = et_monto.getText().toString();
         if(!destino.isEmpty() || !monto.isEmpty()){
-            SendMoneyController.sendMoney(Integer.parseInt(destino), Float.parseFloat(monto), usuario1);
+            SendMoneyController.sendMoney( this, Integer.parseInt(destino), Float.parseFloat(monto), usuario1);
         }else {
             Toast.makeText(this, "Debes llenar los campos", Toast.LENGTH_SHORT).show();
         }
