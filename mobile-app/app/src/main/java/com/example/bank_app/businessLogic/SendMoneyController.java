@@ -15,7 +15,11 @@ public class SendMoneyController {
 
         Account acc2 = getAccount(context, accountNumber);
         Account acc1 = getAccountFromUser(context, usuario);
-
+        if(balance> 0 ) {
+            modifyAccount(context, acc2);
+            modifyAccount(context, acc1);
+        }
+        
 
 
 
