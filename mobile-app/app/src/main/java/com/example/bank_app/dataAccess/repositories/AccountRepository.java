@@ -25,7 +25,7 @@ public class AccountRepository {
         db.close();
     }
 
-    public static Account getAccount(Context context, int accountNumber, float balance ){
+    public static Account getAccount(Context context, int accountNumber ){
         Account Account = new Account();// Usuario a retornar
 
         //Se llama a la base de datos
@@ -34,8 +34,8 @@ public class AccountRepository {
 
         //Atributos para hacer la consulta
         String[] columns = new String[]{"number","balance"}; //Columnas de la tabla
-        String where = "accountNumber = ? AND balance = ?";//cláusula
-        String[] whereValues = new String[]{Integer.toString(accountNumber), Float.toString(balance)};// valores de la condición
+        String where = "accountNumber = ? ";//cláusula
+        String[] whereValues = new String[]{Integer.toString(accountNumber)};// valores de la condición
 
         //Consulta per sé
         Cursor register = db.query("Account", columns, where, whereValues, null, null, null);

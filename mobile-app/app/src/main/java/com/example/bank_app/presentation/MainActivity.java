@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bank_app.R;
-import com.example.bank_app.dataAccess.database.Database;
 import com.example.bank_app.dataAccess.models.User;
 import com.example.bank_app.dataAccess.repositories.UserRepository;
 
