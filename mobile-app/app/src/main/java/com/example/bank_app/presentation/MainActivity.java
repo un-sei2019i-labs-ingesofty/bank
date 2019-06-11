@@ -1,21 +1,22 @@
-package com.example.bank_app;
+package com.example.bank_app.presentation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class BusinessLogic extends AppCompatActivity {
+import com.example.bank_app.R;
+import com.example.bank_app.dataAccess.models.User;
+import com.example.bank_app.dataAccess.repositories.UserRepository;
+
+public class MainActivity extends AppCompatActivity {
 
     private EditText et_usuario, et_contraseña;
     private boolean init;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.presentation);
 
@@ -26,31 +27,20 @@ public class BusinessLogic extends AppCompatActivity {
     }
 
     public void button(View view){
-        DataAccess dbAccess = new DataAccess(this,"cuentas",null,1);
-        SQLiteDatabase db = dbAccess.getWritableDatabase();
-
-        if(init==false){
-            ContentValues registro = new ContentValues();
-            registro.put("usuario","default");
-            registro.put("contraseña","123");
-
-            db.insert("cuenta",null,registro);
+        if(!init){
+            UserRepository.createUser(this, new User(100000,"default",1234));
             init = true;
         }
         String usuario = et_usuario.getText().toString();
         String contraseña = et_contraseña.getText().toString();
-
         if(!usuario.isEmpty() || !contraseña.isEmpty()){
-            Cursor tupla = db.rawQuery("select usuario from cuenta where contraseña =" + contraseña,null);
-            //Terminar la validación del usuario
-            if(tupla.moveToFirst()){
+            if(UserRepository.getUser(this, Integer.parseInt(usuario), Integer.parseInt(contraseña)).getId() != 0){
                 Toast.makeText(this,"Felicidades!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this,"Usuario o contraseña no registrados", Toast.LENGTH_SHORT).show();
             }
-        }else{
-            Toast.makeText(this,"Debes llenar los campos", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Debes llenar los campos", Toast.LENGTH_SHORT).show();
         }
-        db.close();sss
     }
 }
