@@ -25,7 +25,7 @@ public class Account {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 }

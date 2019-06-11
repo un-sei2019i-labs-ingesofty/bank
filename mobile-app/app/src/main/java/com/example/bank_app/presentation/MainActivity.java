@@ -1,19 +1,16 @@
-package com.example.bank_app;
+package com.example.bank_app.presentation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bank_app.dataAccess.database.Database;
+import com.example.bank_app.R;
 import com.example.bank_app.dataAccess.models.User;
 import com.example.bank_app.dataAccess.repositories.UserRepository;
 
-public class BusinessLogic extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private EditText et_usuario, et_contraseña;
     private boolean init;
@@ -30,15 +27,17 @@ public class BusinessLogic extends AppCompatActivity {
     }
 
     public void button(View view){
-        if(init==false){
-            UserRepository.createUser(this, new User(100,"default",1234));
+        if(!init){
+            UserRepository.createUser(this, new User(100000,"default",1234));
             init = true;
         }
         String usuario = et_usuario.getText().toString();
         String contraseña = et_contraseña.getText().toString();
+        User usuario1 = UserRepository.getUser(this, Integer.parseInt(usuario), Integer.parseInt(contraseña));
         if(!usuario.isEmpty() || !contraseña.isEmpty()){
-            if(UserRepository.getUser(this, Integer.parseInt(usuario), Integer.parseInt(contraseña)).getId() != 0){
+            if(usuario1.getId() != 0){
                 Toast.makeText(this,"Felicidades!", Toast.LENGTH_SHORT).show();
+                new SendMoneyActivity(usuario1);
             } else {
                 Toast.makeText(this,"Usuario o contraseña no registrados", Toast.LENGTH_SHORT).show();
             }
