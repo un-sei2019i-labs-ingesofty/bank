@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.bank_app.dataAccess.database.Database;
 import com.example.bank_app.dataAccess.models.Account;
-
+import com.example.bank_app.dataAccess.models.User;
 public class AccountRepository {
 
     public static void createAccount(Context context, Account newAccount) {
@@ -86,6 +86,33 @@ public class AccountRepository {
 
         db.close();
         return modifiedCant;
+
     }
 
+
+    public static Account getAccountFromUser(Context context, User user){
+        Account Account = new Account();// Usuario a retornar
+
+        //Se llama a la base de datos
+        Database dbAccess = new Database(context, "Accounts", null, 1);
+        SQLiteDatabase db = dbAccess.getWritableDatabase();
+
+        //Atributos para hacer la consulta
+        String[] columns = new String[]{"number","balance"}; //Columnas de la tabla
+        String where = "id_user = ? ";//cláusula
+        String[] whereValues = new String[]{Integer.toString(user.getId())};// valores de la condición
+
+        //Consulta per sé
+        Cursor register = db.query("Account JOIN User", columns, where, whereValues, null, null, null);
+
+        //Si existe, retorne el usuario, y si no, retorna el usuario default
+        if (register.moveToFirst()){
+            Account.setAccountNumber(register.getInt(0));
+            Account.setBalance(register.getFloat(1));
+
+        }
+
+        db.close();
+        return Account;
+    }
 }
