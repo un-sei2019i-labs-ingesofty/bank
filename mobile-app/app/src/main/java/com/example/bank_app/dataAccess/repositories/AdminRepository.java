@@ -44,7 +44,7 @@ public class AdminRepository {
 
         if (register.moveToFirst()){
             admin.setId(register.getInt(0));
-            admin.setPassword(register.getInt(1));
+            admin.setPassword(register.getString(1));
         }
 
         db.close();
